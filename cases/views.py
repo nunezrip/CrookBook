@@ -1,9 +1,20 @@
 from django.shortcuts import render, get_object_or_404
 
-from .models import District
+from .models import *
 
 def homepage(request):
-    return render(request, 'homepage.html', {})
+    district_list = District.objects.all()
+    binder_list = Binder.objects.all()
+    case_list = Case.objects.all()
+    event_list = Event.objects.all()
+    person_list = Person.objects.all()
+
+    return render(request, 'homepage.html', {
+        'district_list': district_list[0],
+        'binder_list': binder_list,
+        'case_list': case_list,
+        'person_list': person_list
+    })
 
 def add_entry(request):
     return render(request, 'add-entry.html', {})
