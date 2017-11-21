@@ -5,11 +5,9 @@ from .models import *
 def homepage(request):
     district_list = District.objects.all()
     binder_list = Binder.objects.all()
-    case_list = Case.objects.all()
     event_list = Event.objects.all()
     person_list = Person.objects.all()
-
-    print(case_list)
+    case_list = Case.objects.all()
 
     return render(request, 'homepage.html', {
         'district_list': district_list,

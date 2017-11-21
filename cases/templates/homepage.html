@@ -26,9 +26,17 @@
           {% for case in case_list %}
             <tr>
               <td>{{case.dr_nbr}}</td>
-              <td>{{case.dr_nbr}}</td>
-              <td>{{case.dr_nbr}}</td>
-              <td>{{case.dr_nbr}}</td>
+              <td>
+              {% for victim in case.victims.all %}
+                {{victim.first_name}} {{victim.last_name}}
+              {% endfor %}
+              </td>
+              <td>
+                {% for suspect in case.suspects.all %}
+                  {{suspect.first_name}} {{suspect.last_name}}
+                {% endfor %}
+              </td>
+              <td>{{case.event.date_occurred}}</td>
             </tr>
           {% endfor %}
         </tbody>

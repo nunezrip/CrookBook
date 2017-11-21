@@ -35,85 +35,22 @@ class District(models.Model):
     )
     bureau = models.CharField(
         max_length = 32,
-        null = False,
     )
     division = models.CharField(
         max_length = 32,
-        null = False,
     )
     reporting_district = models.CharField(
         max_length = 32,
-        null = False,
     )
 
-class Case(models.Model):
-    dr_nbr = models.CharField(
-        primary_key = True,
-        max_length = 32,
-    )
-    date_fully_reviewed = models.DateTimeField(
-        null = True,
-        blank = True
-    )
-    motive = models.CharField(
-        max_length = 32,
-        null = False,
-    )
-    adjudication = models.CharField(
-        max_length = 32,
-        null = True,
-        blank = True
-    )
-    evidence_destroyed = models.BooleanField(
-        null = False,
-        default = False,
-    )
-    status = models.CharField(
-        max_length = 2,
-        choices =  CASE_STATUS,
-        null = True,
-        blank = True
-    )
-    status_date = models.DateTimeField(
-        null = True,
-        blank = True
-    )
-    # Should this be part of Event?
-    court_case_number = models.CharField(
-        max_length = 32,
-        null = True,
-        blank = True
-    )
-    notes = models.TextField(
-        null = True,
-        blank = True
-    )
-
-    # TODO: What type should solvability_factor be?
-    # solvability_factor = models.
-
-    related_cases = models.ManyToManyField(
-        'self',
-        null = True,
-        blank = True
-    )
-    district = models.ForeignKey(
-        District,
-        null = False,
-    )
 class Event(models.Model):
     id = models.AutoField(
         primary_key=True
     )
-    date_occurred = models.DateTimeField(
-        null = False,
-    )
-    date_reported = models.DateTimeField(
-        null = False,
-    )
+    date_occurred = models.DateTimeField()
+    date_reported = models.DateTimeField()
     address = models.CharField(
         max_length = 50,
-        null = False,
     )
     weapon = models.CharField(
         max_length = 32,
@@ -124,16 +61,11 @@ class Event(models.Model):
         max_length = 1,
         choices = CRIME,
         default = 'M',
-        null = False,
     )
     coroner_case_number = models.CharField(
         max_length = 32,
         null = True,
         blank = True
-    )
-    case = models.ForeignKey(
-        Case,
-        null = False,
     )
 
 class Person(models.Model):
@@ -172,10 +104,6 @@ class Person(models.Model):
         null = True,
         blank = True
     )
-    case = models.ForeignKey(
-        Case,
-        null = False,
-    )
 
 class Binder(models.Model):
     # TODO: Expand this entity to track more binder info
@@ -193,14 +121,82 @@ class History(models.Model):
         primary_key=True
     )
     date_edited = models.DateTimeField(
-        null = False,
     )
     edited_by = models.CharField(
         max_length = 32,
-        null = False,
     )
-    # TODO: Add traking for what was changed
-    case = models.ForeignKey(
-        Case,
-        null = False,
+
+
+class Case(models.Model):
+    dr_nbr = models.CharField(
+        primary_key = True,
+        max_length = 32,
+    )
+    date_fully_reviewed = models.DateTimeField(
+        null = True,
+        blank = True
+    )
+    motive = models.CharField(
+        max_length = 32,
+    )
+    adjudication = models.CharField(
+        max_length = 32,
+        null = True,
+        blank = True
+    )
+    evidence_destroyed = models.BooleanField(
+        default = False,
+    )
+    status = models.CharField(
+        max_length = 2,
+        choices =  CASE_STATUS,
+        null = True,
+        blank = True
+    )
+    status_date = models.DateTimeField(
+        null = True,
+        blank = True
+    )
+    # Should this be part of Event?
+    court_case_number = models.CharField(
+        max_length = 32,
+        null = True,
+        blank = True
+    )
+    notes = models.TextField(
+        null = True,
+        blank = True
+    )
+
+    # TODO: What type should solvability_factor be?
+    # solvability_factor = models.
+
+    related_cases = models.ManyToManyField(
+        'self',
+        null = True,
+        blank = True
+    )
+    binder = models.ManyToManyField(
+        Binder
+    )
+    victims = models.ManyToManyField(
+        Person,
+        related_name="person_victim"
+    )
+    suspects = models.ManyToManyField(
+        Person,
+        related_name="person_suspect"
+    )
+    district = models.ForeignKey(
+        District
+    )
+    event = models.ForeignKey(
+        Event,
+        null = True,
+        blank = True
+    )
+    history_log = models.ForeignKey(
+        History,
+        null = True,
+        blank = True
     )
