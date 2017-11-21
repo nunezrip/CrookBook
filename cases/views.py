@@ -9,8 +9,10 @@ def homepage(request):
     event_list = Event.objects.all()
     person_list = Person.objects.all()
 
+    print(case_list)
+
     return render(request, 'homepage.html', {
-        'district_list': district_list[0],
+        'district_list': district_list,
         'binder_list': binder_list,
         'case_list': case_list,
         'person_list': person_list

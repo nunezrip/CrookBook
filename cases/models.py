@@ -53,6 +53,7 @@ class Case(models.Model):
     )
     date_fully_reviewed = models.DateTimeField(
         null = True,
+        blank = True
     )
     motive = models.CharField(
         max_length = 32,
@@ -61,6 +62,7 @@ class Case(models.Model):
     adjudication = models.CharField(
         max_length = 32,
         null = True,
+        blank = True
     )
     evidence_destroyed = models.BooleanField(
         null = False,
@@ -70,17 +72,21 @@ class Case(models.Model):
         max_length = 2,
         choices =  CASE_STATUS,
         null = True,
+        blank = True
     )
     status_date = models.DateTimeField(
         null = True,
+        blank = True
     )
     # Should this be part of Event?
     court_case_number = models.CharField(
         max_length = 32,
         null = True,
+        blank = True
     )
     notes = models.TextField(
         null = True,
+        blank = True
     )
 
     # TODO: What type should solvability_factor be?
@@ -88,6 +94,8 @@ class Case(models.Model):
 
     related_cases = models.ManyToManyField(
         'self',
+        null = True,
+        blank = True
     )
     district = models.ForeignKey(
         District,
@@ -110,6 +118,7 @@ class Event(models.Model):
     weapon = models.CharField(
         max_length = 32,
         null = True,
+        blank = True
     )
     crime_committed = models.CharField(
         max_length = 1,
@@ -120,6 +129,7 @@ class Event(models.Model):
     coroner_case_number = models.CharField(
         max_length = 32,
         null = True,
+        blank = True
     )
     case = models.ForeignKey(
         Case,
@@ -133,28 +143,34 @@ class Person(models.Model):
     first_name = models.CharField(
         max_length = 32,
         null = True,
+        blank = True
     )
     last_name = models.CharField(
         max_length = 32,
         null = True,
+        blank = True
     )
     age = models.IntegerField(
         null = True,
+        blank = True
     )
     sex = models.CharField(
         max_length = 32,
         choices = SEX,
         null = True,
+        blank = True
     )
     ethnicity = models.CharField(
         max_length  = 1,
         choices = ETHNICITIES,
         # TODO: Add ETHNICITIES choices
         null = True,
+        blank = True
     )
     description = models.CharField(
         max_length = 64,
         null = True,
+        blank = True
     )
     case = models.ForeignKey(
         Case,
@@ -169,6 +185,7 @@ class Binder(models.Model):
     )
     check_out_date = models.DateTimeField(
         null = True,
+        blank = True
     )
 
 class History(models.Model):
